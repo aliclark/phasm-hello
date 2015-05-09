@@ -1,23 +1,20 @@
 (bin, elf, proc, sys, util) -> {
-    bytes = (n) -> bin.u(n, 0)
-    type = (block) -> WithPosition(0, block)
-
-    ptr_new = bytes(8)
-    ptr_t = type(ptr_new)
+    ptr_new = bin.bytes(8)
+    ptr_t = util.type(ptr_new)
 
     list_new = {
         :value: ptr_new
         :next:  ptr_new
     }
-    list_t = type(list_new)
+    list_t = util.type(list_new)
 
     bss = {
-        :counter: bytes(8)
+        :counter: bin.bytes(8)
         :my_foo_list: list_new
     }
 
     data = {
-        :verbose: bin.u(1, 0)
+        :verbose: bin.u8(0)
     }
 
     rodata = {
