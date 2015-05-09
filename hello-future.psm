@@ -1,5 +1,6 @@
 (bin, elf, proc, sys, util) -> {
-    ptr_new = bin.bytes(8)
+
+    ptr_new = bin.u64(0)
     ptr_t = util.type(ptr_new)
 
     list_new = {
@@ -9,7 +10,7 @@
     list_t = util.type(list_new)
 
     bss = {
-        :counter: bin.bytes(8)
+        :counter: bin.u64(0)
         :my_foo_list: list_new
     }
 
