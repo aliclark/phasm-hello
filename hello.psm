@@ -1,0 +1,22 @@
+(elf, proc, sys, util) -> {
+    data = {}
+    bss  = {}
+
+    rodata = {
+        hello_world = util.utf8("Hello, world!\n")
+        :hello_world_addr: hello_world
+    }
+
+    text = (rodata, data, bss) -> {
+        :print: proc.sub2((addr, size) -> {
+            sys.write(sys.fd_stdout, addr, size)
+        })
+
+        :start: {
+            proc.call2(print, rodata.hello_world_addr, rodata.hello_world.size)
+            sys.exit(0)
+        }
+    }
+
+    elf.linux_x64(rodata, data, bss, text)
+}

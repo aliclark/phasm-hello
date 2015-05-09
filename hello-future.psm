@@ -1,0 +1,41 @@
+(bin, elf, proc, sys, util) -> {
+    bytes = (n) -> bin.u(n, 0)
+    type = (block) -> WithPosition(0, block)
+
+    ptr_new = bytes(8)
+    ptr_t = type(ptr_new)
+
+    list_new = {
+        :value: ptr_new
+        :next:  ptr_new
+    }
+    list_t = type(list_new)
+
+    bss = {
+        :counter: bytes(8)
+        :my_foo_list: list_new
+    }
+
+    data = {
+        :verbose: bin.u(1, 0)
+    }
+
+    rodata = {
+        :hello_world: = util.utf8("Hello, world!\n")
+        :bye:         = util.utf8("bye!\n")
+    }
+
+    text = (rodata, data, bss) -> {
+
+        :print: proc.sub2((addr, size) -> {
+            sys.write(sys.fd_stdout, addr, size)
+        })
+
+        :start: {
+            print.call(rodata.hello_world, rodata.hello_world.size)
+            sys.exit(0)
+        }
+    }
+
+    elf.linux_x64(rodata, data, bss, text)
+}
