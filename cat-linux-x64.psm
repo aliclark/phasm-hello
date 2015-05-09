@@ -1,0 +1,24 @@
+#!/usr/bin/env phasm
+
+num      = Import("gh:aliclark/phasm-std/0.4/num.py")
+str      = Import("gh:aliclark/phasm-std/0.4/str.py")
+bin_base = Import("gh:aliclark/phasm-std/0.4/bin.py")
+asm_base = Import("gh:aliclark/phasm-std/0.4/asm_x64.py")
+
+abs_bin  = Import("gh:aliclark/phasm-std/0.4/bin.psm")
+abs_asm  = Import("gh:aliclark/phasm-std/0.4/asm-x64.psm")
+abs_elf  = Import("gh:aliclark/phasm-std/0.4/elf.psm")
+abs_proc = Import("gh:aliclark/phasm-std/0.4/proc-x64.psm")
+abs_sys  = Import("gh:aliclark/phasm-std/0.4/syscall-linux-x64.psm")
+abs_util = Import("gh:aliclark/phasm-std/0.4/util.psm")
+
+abs_cat = Import("gh:aliclark/phasm-hello/0.3/cat.psm")
+
+bin  = abs_bin(bin_base)
+elf  = abs_elf(num, str, bin)
+asm  = abs_asm(num, bin, asm_base)
+proc = abs_proc(asm)
+sys  = abs_sys(bin, asm)
+util = abs_util(str, asm, sys)
+
+abs_cat(bin, elf.linux_x64, asm, proc, sys, util)

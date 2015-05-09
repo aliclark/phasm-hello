@@ -1,0 +1,33 @@
+(bin, elf_gen, asm, proc, sys, util) -> {
+    data = {}
+    rodata = {}
+
+    cat_buf_size = 4096
+
+    # NB: at time of writing the elf generation for bss is broken so
+    # needs to be hacked to:
+    #
+    # p_flags  = num.add(num.add(pf.x, pf.r), pf.w)
+    bss  = {
+        :cat_buf: bin.bytes(cat_buf_size)
+    }
+
+    text = (rodata, data, bss) -> {
+        :start: {
+	    sys.read(sys.fd_stdin, bss.cat_buf, cat_buf_size)
+            asm.cmp_rax_i8(0)
+            asm.je_i8(end)
+
+            :loop:
+            sys.write(sys.fd_stdout, bss.cat_buf, "rax")
+	    sys.read(sys.fd_stdin, bss.cat_buf, cat_buf_size)
+            asm.cmp_rax_i8(0)
+            asm.jne_i8(loop)
+	    :end:
+
+            sys.exit(0)
+        }
+    }
+
+    elf_gen(rodata, data, bss, text)
+}
