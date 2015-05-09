@@ -1,4 +1,4 @@
-(elf, proc, sys, util) -> {
+(elf_gen, proc, sys, util) -> {
     data = {}
     bss  = {}
 
@@ -18,5 +18,5 @@
         }
     }
 
-    elf.linux_x64(rodata, data, bss, text)
+    elf_gen(rodata, data, bss, text)
 }
