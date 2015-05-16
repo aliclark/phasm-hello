@@ -4,10 +4,6 @@
 
     cat_buf_size = 4096
 
-    # NB: at time of writing the elf generation for bss is broken so
-    # needs to be hacked to:
-    #
-    # p_flags  = num.add(num.add(pf.x, pf.r), pf.w)
     bss  = {
         :cat_buf: bin.bytes(cat_buf_size)
     }
