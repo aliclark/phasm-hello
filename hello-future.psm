@@ -23,6 +23,25 @@
         :bye:         = util.utf8("bye!\n")
     }
 
+"
+I imagine this might be like:
+
+    sub2 = (code) -> (addr) -> {
+        call = (arg1, arg2) -> call2(addr, arg1, arg2)
+        start()
+        code("[rbp+16]", "[rbp+24]")
+        ret()
+    }
+
+meanwhile, this *could* stay as it is, because the logic might be that
+any function gets applied to an address, and any block is just inlined
+ignoring the address.
+
+        :hello_world: = util.utf8('Hello, world!\n')
+
+so ':L: = X' syntax would work where X is Block or (Num)->Block
+"
+
     text = (rodata, data, bss) -> {
 
         :print: proc.sub2((addr, size) -> {
