@@ -12,9 +12,9 @@ abs_proc = Import("gh:aliclark/phasm-std/0.4/proc-x64.psm")
 abs_sys  = Import("gh:aliclark/phasm-std/0.4/syscall-linux-x64.psm")
 abs_util = Import("gh:aliclark/phasm-std/0.4/util.psm")
 
-abs_cat = Import("gh:aliclark/phasm-hello/0.3/cat.psm")
+abs_cat = Import("gh:aliclark/phasm-hello/0.2/cat.psm")
 
-bin  = abs_bin(bin_base)
+bin  = abs_bin(bin_base, num)
 elf  = abs_elf(num, str, bin)
 asm  = abs_asm(num, bin, asm_base)
 proc = abs_proc(asm)
